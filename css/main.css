@@ -2247,3 +2247,8 @@ body.lit-scene .flame-cursor {
     opacity: 0;
   }
 }
+
+/* El velo de la vela solo oscurece la escena del escritorio; el resto del relato se ve con luz normal. */
+body[data-light="on"]:not(.desk-active) .spotlight-veil {
+  opacity: 0 !important;
+}
