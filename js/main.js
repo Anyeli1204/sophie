@@ -10,6 +10,8 @@
   const deskContinue = document.querySelector(".desk-continue");
   const deskHint = document.querySelector(".desk-move-hint");
   const correctionStage = document.querySelector(".correction-stage");
+  const finalScene = document.getElementById("final");
+  const litScenes = new Set();
 
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -103,9 +105,6 @@
         if (entry.isIntersecting) {
           entry.target.classList.add("is-in");
           if (entry.target.id === "lagrange") runCorrectionStory();
-          if (entry.target.id === "final") {
-            body.classList.toggle("final-lit", entry.isIntersecting);
-          }
           if (entry.target.id === "despertar" && body.dataset.light === "on") {
             body.classList.add("desk-active");
           }
@@ -113,15 +112,58 @@
         if (entry.target.id === "despertar" && !entry.isIntersecting) {
           body.classList.remove("desk-active");
         }
-        if (entry.target.id === "final" && !entry.isIntersecting) {
-          body.classList.remove("final-lit");
-        }
       });
     },
     { threshold: 0.28 }
   );
 
   scenes.forEach((scene) => observer.observe(scene));
+
+  // Escenas iluminadas (la obra y el final): se apaga el velo de la vela.
+  const litObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          litScenes.add(entry.target);
+        } else {
+          litScenes.delete(entry.target);
+        }
+      });
+      body.classList.toggle("lit-scene", litScenes.size > 0);
+      body.classList.toggle("final-lit", litScenes.has(finalScene));
+    },
+    { rootMargin: "-35% 0px -35% 0px" }
+  );
+  document.querySelectorAll(".scene-lit").forEach((scene) => litObserver.observe(scene));
+
+  // Recorrido por la obra: cada paso enfoca una zona de la imagen.
+  const obraFrame = document.querySelector(".obra-frame");
+  const obraSteps = [...document.querySelectorAll(".obra-step")];
+
+  function focusObra(step) {
+    obraSteps.forEach((s) => s.classList.toggle("is-active", s === step));
+    obraFrame.style.setProperty("--ox", step.dataset.ox);
+    obraFrame.style.setProperty("--oy", step.dataset.oy);
+    obraFrame.style.setProperty("--s", step.dataset.s);
+  }
+
+  if (obraFrame && obraSteps.length) {
+    const stepObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) focusObra(entry.target);
+        });
+      },
+      {
+        // En móvil la imagen ocupa la parte superior: el texto se lee abajo.
+        rootMargin: window.matchMedia("(max-width: 900px)").matches
+          ? "-72% 0px -18% 0px"
+          : "-45% 0px -45% 0px",
+      }
+    );
+    obraSteps.forEach((step) => stepObserver.observe(step));
+  }
 
   letters.forEach((letter) => {
     letter.addEventListener("click", () => letter.classList.toggle("is-open"));

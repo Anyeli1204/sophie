@@ -2022,3 +2022,228 @@ body.lit .descend {
     transform: none;
   }
 }
+
+.scene.is-in .reveal.delay-5 { opacity: 1; transform: none; transition-delay: 1.75s; }
+
+/* ---------- CAPÍTULOS ---------- */
+.chapter-mark {
+  font-family: var(--period);
+  font-size: 0.82rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin: 0 auto 4vh;
+}
+
+.chapter-mark::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  margin: 1rem auto 0;
+  background: var(--gold);
+  opacity: 0.6;
+}
+
+/* ---------- LA OBRA ---------- */
+body.lit-scene .spotlight-veil {
+  opacity: 0;
+}
+
+body.lit-scene .flame-cursor {
+  opacity: 0.35;
+}
+
+.scene-obra {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(232, 184, 109, 0.1), transparent 45%),
+    #120e09;
+  padding-bottom: 6vh;
+}
+
+.obra-head {
+  text-align: center;
+  margin-bottom: 8vh;
+}
+
+.obra-head h2 {
+  font-family: var(--script);
+  font-weight: 400;
+  font-size: clamp(3.6rem, 10vw, 7rem);
+  line-height: 1;
+  color: var(--paper);
+}
+
+.obra-intro {
+  margin-top: 1.4rem;
+  font-size: clamp(1.2rem, 2.3vw, 1.6rem);
+  font-style: italic;
+  color: var(--paper-dim);
+}
+
+.obra-tour {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 6vw;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+.obra-sticky {
+  position: sticky;
+  top: 8vh;
+  height: 84vh;
+  display: grid;
+  place-items: center;
+}
+
+.obra-frame {
+  position: relative;
+  height: 84vh;
+  aspect-ratio: 2000 / 3217;
+  overflow: hidden;
+  background: #e9dcbf;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(232, 184, 109, 0.2);
+}
+
+.obra-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: var(--ox) var(--oy);
+  transform: scale(var(--s));
+  transition: transform 1.6s var(--ease), transform-origin 1.6s var(--ease);
+}
+
+.obra-steps {
+  padding: 30vh 0 20vh;
+}
+
+.obra-step {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 34rem;
+  opacity: 0.22;
+  transition: opacity 0.8s var(--ease);
+}
+
+.obra-step.is-active {
+  opacity: 1;
+}
+
+.obra-step h3 {
+  font-family: var(--period);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  color: var(--amber);
+  margin-bottom: 1rem;
+}
+
+.obra-step p {
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  line-height: 1.55;
+  margin-bottom: 1rem;
+}
+
+.obra-step .aside {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--paper-dim);
+}
+
+.obra-step blockquote {
+  margin-top: 0.6rem;
+  padding-left: 1.2rem;
+  border-left: 1px solid var(--gold);
+  font-family: var(--period);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.9vw, 1.4rem);
+  line-height: 1.6;
+  color: #f6ead0;
+}
+
+.obra-step cite {
+  display: block;
+  margin-top: 0.9rem;
+  font-family: var(--script);
+  font-style: normal;
+  font-size: 2rem;
+  color: var(--amber);
+}
+
+.obra-full {
+  align-self: flex-start;
+  margin-top: 1.6rem;
+  padding: 0.7rem 1.1rem;
+  border: 1px solid rgba(232, 184, 109, 0.4);
+  color: var(--paper);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.obra-full:hover {
+  background: rgba(232, 184, 109, 0.12);
+}
+
+@media (max-width: 900px) {
+  body.lit-scene .chapter-nav {
+    display: none;
+  }
+
+  .obra-tour {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .obra-sticky {
+    top: 0;
+    height: 62vh;
+    z-index: 3;
+    padding: 2vh 0;
+    background: #120e09;
+  }
+
+  .obra-frame {
+    height: 58vh;
+    max-width: 92vw;
+  }
+
+  .obra-steps {
+    position: relative;
+    z-index: 1;
+    padding: 4vh 0 10vh;
+  }
+
+  .obra-step {
+    min-height: 0;
+    margin: 0 auto 40vh;
+    padding: 1.4rem 1.2rem;
+    background: rgba(18, 14, 9, 0.94);
+    border: 1px solid rgba(232, 184, 109, 0.18);
+  }
+
+  .obra-step p {
+    font-size: 1.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .obra-frame img {
+    transition: none;
+  }
+
+  .obra-step {
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  body.lit-scene .flame-cursor {
+    opacity: 0;
+  }
+}
